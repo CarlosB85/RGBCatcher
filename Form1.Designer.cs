@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btn_probar = new System.Windows.Forms.Button();
+            this.btn_auto = new System.Windows.Forms.Button();
             this.pnl_rgb_color = new System.Windows.Forms.Panel();
             this.lbl_ancho = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -55,20 +55,28 @@
             this.inpt_px_largo = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.inpt_auto_largo = new System.Windows.Forms.NumericUpDown();
+            this.inpt_auto_ancho = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.inpt_delay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inpt_px_ancho)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inpt_px_largo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inpt_auto_largo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inpt_auto_ancho)).BeginInit();
             this.SuspendLayout();
             // 
-            // btn_probar
+            // btn_auto
             // 
-            this.btn_probar.Location = new System.Drawing.Point(452, 390);
-            this.btn_probar.Name = "btn_probar";
-            this.btn_probar.Size = new System.Drawing.Size(75, 23);
-            this.btn_probar.TabIndex = 0;
-            this.btn_probar.Text = "Probar";
-            this.btn_probar.UseVisualStyleBackColor = true;
-            this.btn_probar.Click += new System.EventHandler(this.btn_probar_Click);
+            this.btn_auto.Location = new System.Drawing.Point(452, 84);
+            this.btn_auto.Name = "btn_auto";
+            this.btn_auto.Size = new System.Drawing.Size(75, 23);
+            this.btn_auto.TabIndex = 0;
+            this.btn_auto.Text = "Automatico";
+            this.btn_auto.UseVisualStyleBackColor = true;
+            this.btn_auto.Click += new System.EventHandler(this.btn_probar_Click);
             // 
             // pnl_rgb_color
             // 
@@ -85,10 +93,6 @@
             this.lbl_ancho.Size = new System.Drawing.Size(38, 13);
             this.lbl_ancho.TabIndex = 3;
             this.lbl_ancho.Text = "Ancho";
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label1
             // 
@@ -166,7 +170,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(452, 142);
+            this.button1.Location = new System.Drawing.Point(452, 171);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 10;
@@ -176,7 +180,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(452, 171);
+            this.button2.Location = new System.Drawing.Point(452, 200);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 11;
@@ -204,17 +208,13 @@
             // 
             // btn_registrar
             // 
-            this.btn_registrar.Location = new System.Drawing.Point(452, 84);
+            this.btn_registrar.Location = new System.Drawing.Point(452, 113);
             this.btn_registrar.Name = "btn_registrar";
             this.btn_registrar.Size = new System.Drawing.Size(75, 23);
             this.btn_registrar.TabIndex = 14;
             this.btn_registrar.Text = "Registrar";
             this.btn_registrar.UseVisualStyleBackColor = true;
-            this.btn_registrar.Click += new System.EventHandler(this.btn_registrar_Click);
-            // 
-            // timer2
-            // 
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            this.btn_registrar.Click += new System.EventHandler(this.btn_registrar_Click);            
             // 
             // lst_puntos
             // 
@@ -226,7 +226,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(452, 113);
+            this.button3.Location = new System.Drawing.Point(452, 142);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 16;
@@ -329,11 +329,91 @@
             this.label9.TabIndex = 24;
             this.label9.Text = "px";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(448, 53);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(18, 13);
+            this.label10.TabIndex = 30;
+            this.label10.Text = "px";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(448, 31);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(18, 13);
+            this.label11.TabIndex = 29;
+            this.label11.Text = "px";
+            // 
+            // inpt_auto_largo
+            // 
+            this.inpt_auto_largo.Location = new System.Drawing.Point(382, 51);
+            this.inpt_auto_largo.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.inpt_auto_largo.Name = "inpt_auto_largo";
+            this.inpt_auto_largo.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.inpt_auto_largo.Size = new System.Drawing.Size(60, 20);
+            this.inpt_auto_largo.TabIndex = 28;
+            this.inpt_auto_largo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.inpt_auto_largo.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // inpt_auto_ancho
+            // 
+            this.inpt_auto_ancho.Location = new System.Drawing.Point(382, 29);
+            this.inpt_auto_ancho.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.inpt_auto_ancho.Name = "inpt_auto_ancho";
+            this.inpt_auto_ancho.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.inpt_auto_ancho.Size = new System.Drawing.Size(60, 20);
+            this.inpt_auto_ancho.TabIndex = 27;
+            this.inpt_auto_ancho.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.inpt_auto_ancho.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(289, 53);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(83, 13);
+            this.label12.TabIndex = 26;
+            this.label12.Text = "offset auto largo";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(289, 31);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(90, 13);
+            this.label13.TabIndex = 25;
+            this.label13.Text = "offset auto ancho";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(532, 473);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.inpt_auto_largo);
+            this.Controls.Add(this.inpt_auto_ancho);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.inpt_px_largo);
@@ -357,12 +437,14 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbl_ancho);
             this.Controls.Add(this.pnl_rgb_color);
-            this.Controls.Add(this.btn_probar);
+            this.Controls.Add(this.btn_auto);
             this.Name = "Form1";
             this.Text = "RGBCatcher";
             ((System.ComponentModel.ISupportInitialize)(this.inpt_delay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.inpt_px_ancho)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.inpt_px_largo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inpt_auto_largo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inpt_auto_ancho)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -370,7 +452,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btn_probar;
+        private System.Windows.Forms.Button btn_auto;
         private System.Windows.Forms.Panel pnl_rgb_color;
         private System.Windows.Forms.Label lbl_ancho;
         private System.Windows.Forms.Timer timer1;
@@ -396,6 +478,12 @@
         private System.Windows.Forms.NumericUpDown inpt_px_largo;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown inpt_auto_largo;
+        private System.Windows.Forms.NumericUpDown inpt_auto_ancho;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
     }
 }
 

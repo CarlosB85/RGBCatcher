@@ -14,114 +14,79 @@ namespace RGBCatcher
 {
     public partial class Form1 : Form
     {
-        [DllImport("user32.dll")]
-        static extern bool GetCursorPos(ref Point lpPoint);
+        private Nucleo _n;
 
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-        public static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
+        public const int LBL_ANCHO = 0;
+        public const int LBL_ALTO = 1;
+        public const int LBL_STATUS = 2;
 
-        [DllImport("User32.dll")]
-        public static extern IntPtr GetDC(IntPtr hwnd);
-        [DllImport("User32.dll")]
-        public static extern void ReleaseDC(IntPtr hwnd, IntPtr dc);
-
-        Bitmap screenPixel = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
-        //List<Point> posiciones = new List<Point>();
-        int segundosTimer2 = 3;
-        int ancho_px = 1;
-        int alto_px = 1;
-        int temp_r = 0;
-        int temp_g = 0;
-        int temp_b = 0;
-        int temp_a = 0;
-        int temp_t = 0;
-        Color temp_c;
         public Form1()
         {
             InitializeComponent();
-            timer1 = new Timer();
-            timer1.Tick += timer1_Tick;
-            timer1 = new Timer();
-            timer1.Tick += timer1_Tick;
             lst_puntos.DrawMode = DrawMode.OwnerDrawFixed;
             lst_puntos.DrawItem += listBox_DrawItem;
+            _n = new Nucleo(this);
         }
 
         private void btn_probar_Click(object sender, EventArgs e)
         {
             int width = Screen.PrimaryScreen.Bounds.Width;
             int height = Screen.PrimaryScreen.Bounds.Height;
-
-            lbl_ancho.Text = width + " px";
-            lbl_alto.Text = height + " px";
+            int offset_width = (int)inpt_auto_ancho.Value;
+            int offset_height = (int)inpt_auto_largo.Value;
+            int captura_ancho = (int)inpt_px_ancho.Value;
+            int captura_alto = (int)inpt_px_largo.Value;
         }
 
-        public Color GetColorAt(Point location)
+        public void setText(int lbl, string texto)
         {
-            using (Graphics gdest = Graphics.FromImage(screenPixel))
+            switch (lbl)
             {
-                using (Graphics gsrc = Graphics.FromHwnd(IntPtr.Zero))
-                {
-                    IntPtr hSrcDC = gsrc.GetHdc();
-                    IntPtr hDC = gdest.GetHdc();
-                    int retval = BitBlt(hDC, 0, 0, ancho_px, alto_px, hSrcDC, location.X, location.Y, (int)CopyPixelOperation.SourceCopy);
-                     gdest.ReleaseHdc();
-                    gsrc.ReleaseHdc();
-                }
+                case LBL_ALTO:
+                    lbl_alto.Text = texto;
+                    break;
+                case LBL_ANCHO:
+                    lbl_ancho.Text = texto;
+                    break;
+                case LBL_STATUS:
+                    lbl_status.Text = texto;
+                    break;
             }
-
-            IntPtr desktopPtr = GetDC(IntPtr.Zero);
-            Graphics g = Graphics.FromHdc(desktopPtr);
-            g.DrawRectangle(new Pen(Color.Orange), new Rectangle(location.X, location.Y, ancho_px, alto_px));
-            g.Dispose();
-            ReleaseDC(IntPtr.Zero, desktopPtr);
-
-            temp_r = 0;
-            temp_g = 0;
-            temp_b = 0;
-            temp_a = 0;
-
-            for (int px_x = 0; px_x < ancho_px; px_x++)
-            {
-                for (int px_y = 0; px_y < alto_px; px_y++)
-                {
-                    temp_c = screenPixel.GetPixel(px_x, px_y);
-                    temp_r += temp_c.R;
-                    temp_g += temp_c.G;
-                    temp_b += temp_c.B;
-                    temp_a += temp_c.A;
-                }
-            }
-            temp_t = (ancho_px * alto_px);
-            return Color.FromArgb(temp_a / temp_t, temp_r / temp_t, temp_g / temp_t, temp_b / temp_t);
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        internal void addPunto(RGBPoint rGBPoint)
         {
+            lst_puntos.Items.Add(rGBPoint);
+        }
 
-            foreach (RGBPoint pnt in lst_puntos.Items)
+        internal void quitarPunto(int indice)
+        {
+            if (lst_puntos.Items.Count >= indice)
             {
-                var c = GetColorAt(pnt.getpnt());
-                pnt.setc(c);
-
+                lst_puntos.Items.RemoveAt(indice);
             }
-            lbl_status.Text = timer1.Enabled ? "Corriendo" : "Detenido";
+        }
+
+        internal void lst_refresh()
+        {
             lst_puntos.Refresh();
         }
+
+        internal ListBox.ObjectCollection getPuntos()
+        {
+            return lst_puntos.Items;
+        }
+
+        internal void limpiarPuntos()
+        {
+            lst_puntos.Items.Clear();
+        }
+
 
         //iniciar
         private void button1_Click(object sender, EventArgs e)
         {
-            ancho_px = (int)inpt_px_ancho.Value;
-            alto_px = (int)inpt_px_largo.Value;
-            screenPixel = new Bitmap(ancho_px, alto_px, PixelFormat.Format32bppArgb);
-            if (!timer1.Enabled)
-            {
-                timer1.Interval = (int)inpt_delay.Value;
-                timer1.Enabled = true;
-                timer1.Start();
-            }
-            lbl_status.Text = timer1.Enabled ? "Corriendo" : "Detenido";
+            _n.btn_iniciar_click();
         }
 
         //detener
@@ -142,26 +107,6 @@ namespace RGBCatcher
             timer2.Enabled = true;
             timer2.Start();
             lbl_status.Text = "Capturando 2 s";
-        }
-
-        private void addPunto(Point pnt)
-        {
-            lst_puntos.Items.Add(new RGBPoint(pnt, Color.White));
-        }
-
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            segundosTimer2--;
-            lbl_status.Text = "Capturando " + segundosTimer2 + " s";
-            if (segundosTimer2 == 0)
-            {
-                timer2.Enabled = false;
-                timer2.Stop();
-                Point cursor = new Point();
-                GetCursorPos(ref cursor);
-                addPunto(cursor);
-                lbl_status.Text = "listo.";
-            }
         }
 
         private void listBox_DrawItem(object sender, DrawItemEventArgs e)
@@ -221,28 +166,5 @@ namespace RGBCatcher
 
         }
 
-    }
-
-    public class RGBPoint
-    {
-        private Point pnt;
-        private Color c;
-
-        public RGBPoint(Point pnt, Color c)
-        {
-            this.pnt = pnt;
-            this.c = c;
-        }
-
-        public void setc(Color c) { this.c = c; }
-
-        public Point getpnt() { return this.pnt; }
-
-        public Color getc() { return this.c; }
-
-        public string ToString()
-        {
-            return "X: " + pnt.X + " - Y: " + pnt.Y;
-        }
     }
 }
